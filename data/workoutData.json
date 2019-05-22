@@ -1,0 +1,111 @@
+{
+    "time": 60,
+    "treadmill":{
+        "time": 27,
+        "block1":{
+            "time": 14,
+            "sequence": [
+                {
+                    "time": 2,
+                    "paceName": "walk",
+                    "pace": 3.5
+                },
+                {
+                    "time": 2,
+                    "paceName": "base",
+                    "pace": 5.5
+                },
+                {
+                    "time": 3,
+                    "paceName": "push",
+                    "pace": 6.5
+                },
+                {
+                    "time": 2,
+                    "paceName": "base",
+                    "pace": 5.5
+                },
+                {
+                    "time": 3,
+                    "paceName": "push",
+                    "pace": 6.5
+                },
+                {
+                    "time": 1,
+                    "paceName": "all out",
+                    "pace": 7.5
+                },
+                {
+                    "time": 1,
+                    "paceName": "walk",
+                    "pace": 3.5
+                }
+            ]
+        }
+    },
+    "block2":{
+        "time": 13,
+        "sequence": [
+            {
+                "time": 1,
+                "paceName": "base",
+                "pace": 5.5
+            },
+            {
+                "time": 1,
+                "paceName": "push",
+                "pace": 6.5
+            },
+            {
+                "time": 1,
+                "paceName": "base",
+                "pace": 5.5
+            },
+            {
+                "time": 1,
+                "paceName": "push",
+                "pace": 6.5
+            },
+            {
+                "time": 1,
+                "paceName": "all out",
+                "pace": 7.5
+            },
+            {
+                "time": 1,
+                "paceName": "walk",
+                "pace": 3.5
+            },
+            {
+                "time": 1,
+                "paceName": "base",
+                "pace": 5.5
+            },
+            {
+                "time": 1,
+                "paceName": "push",
+                "pace": 6.5
+            },
+            {
+                "time": 1,
+                "paceName": "base",
+                "pace": 6.5
+            },
+            {
+                "time": 1,
+                "paceName": "push",
+                "pace": 6.5
+            },
+            {
+                "time": 1,
+                "paceName": "all out",
+                "pace": 7.5
+            },
+            {
+                "time": 2,
+                "paceName": "walk",
+                "pace": 3.5
+            }
+        ]
+    }
+}
