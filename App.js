@@ -16,31 +16,51 @@ export default class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-        time: workoutTime,
+        time: workoutTime * 60,
+        displayTime: null,
         sequenceIndex: 0,
         sequence: sequence[0],
         sequenceStartTime: workoutTime,
         sequenceTime: sequence[0].time,
-        sequenceCountdown: null,
+        sequenceCountdown: sequence[0].time * 60,
+        sequenceDisplay: null,
         paused: true
     }
   }
 
   componentDidMount(){
-    this.numberToTime()
+    this.convertOverallNumberToTime()
+    this.convertNumberToTime()
   }
 
-  numberToTime = () => {
-    let timeInSeconds = this.state.sequenceTime * 60
-    let minutes = Math.floor((timeInSeconds % (1000 * 60 * 60)) / (1000 * 60))
-    let seconds = Math.floor((timeInSeconds % (1000 * 60)) / 1000)
-    let clock = minutes + ':' + seconds
-    this.setState({
-      sequenceCountdown: clock
-    })
+  convertOverallNumberToTime = () => {
+    let timeInSeconds = this.state.time
+    let minutes = Math.floor(timeInSeconds / 60)
+    let seconds = (timeInSeconds % 60)
+      let secondsDisplay = seconds.toString()
+      if (seconds < 10) {
+        secondsDisplay = '0'+ secondsDisplay
+      }
+      this.setState({
+        displayTime: minutes + ':' + secondsDisplay
+      })
   }
+
+  convertNumberToTime = () => {
+      let timeInSeconds = this.state.sequenceCountdown
+      let minutes = Math.floor(timeInSeconds / 60)
+      let seconds = (timeInSeconds % 60)
+      let secondsDisplay = seconds.toString()
+      if (seconds < 10) {
+        secondsDisplay = '0'+ secondsDisplay
+      }
+      this.setState({
+        sequenceDisplay: minutes + ':' + secondsDisplay
+      })
+    }
 
   selectSequence = () => {
+      this.convertOverallNumberToTime()
       index = this.state.sequenceIndex
       if (this.state.time === (this.state.sequenceStartTime - this.state.sequenceTime)){
         this.setState({
@@ -68,15 +88,15 @@ export default class App extends React.Component {
 
   sequenceDecrement = () => {
     this.setState({
-      sequenceCountdown: this.state.sequenceCountdown - 0.01
-    })
+      sequenceCountdown: this.state.sequenceCountdown - 1
+    }, this.convertNumberToTime)
   }
 
   handlePlayTimer = () => {
     this.setState({
       paused: false
     })
-    timer = setInterval(this.decrement, 60000)
+    timer = setInterval(this.decrement, 1000)
     sequenceTimer = setInterval(this.sequenceDecrement, 1000)
   }
 
@@ -96,14 +116,14 @@ export default class App extends React.Component {
       sequence: sequence[0],
       sequenceStartTime: workoutTime,
       sequenceTime: sequence[0].time,
-      sequenceCountdown: sequence[0].time,
+      sequenceCountdown: null,
       paused: true
     })
   }
 
   render() {
     const time = this.state.time
-    const sequenceCountdown = this.state.sequenceCountdown
+    const sequenceDisplay = this.state.sequenceDisplay
     const paused = this.state.paused
     let button
 
@@ -123,10 +143,10 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.timer}>{time} min</Text>
+        <Text style={styles.timer}>{this.state.displayTime} min</Text>
         <Text style={styles.timer}>{this.state.sequenceStartTime - this.state.sequenceTime}</Text>
         <SequenceTimer 
-          sequenceCountdown={sequenceCountdown}
+          sequenceDisplay={sequenceDisplay}
           />
         {button}
         <Button
