@@ -1,25 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-//data
-import workoutData from '../data/workoutData';
-
 export default class SequenceTimer extends React.Component {
-    
-    constructor(props){
-        super(props)
-        this.state = {
-        }
+
+    render() {
+        return (
+            <View style = {styles.container}>
+                <Text style={styles.timer}>{this.props.sequenceCountdown}</Text>
+            </View>
+        );
     }
-
-
-  render() {
-    return (
-        <View style = {styles.container}>
-            <Text style={styles.timer}>{this.props.sequenceTime.toFixed(2)}</Text>
-        </View>
-    );
-  }
 }
 
 const styles = StyleSheet.create({

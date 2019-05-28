@@ -21,8 +21,23 @@ export default class App extends React.Component {
         sequence: sequence[0],
         sequenceStartTime: workoutTime,
         sequenceTime: sequence[0].time,
+        sequenceCountdown: null,
         paused: true
     }
+  }
+
+  componentDidMount(){
+    this.numberToTime()
+  }
+
+  numberToTime = () => {
+    let timeInSeconds = this.state.sequenceTime * 60
+    let minutes = Math.floor((timeInSeconds % (1000 * 60 * 60)) / (1000 * 60))
+    let seconds = Math.floor((timeInSeconds % (1000 * 60)) / 1000)
+    let clock = minutes + ':' + seconds
+    this.setState({
+      sequenceCountdown: clock
+    })
   }
 
   selectSequence = () => {
@@ -51,15 +66,23 @@ export default class App extends React.Component {
     } 
   }
 
+  sequenceDecrement = () => {
+    this.setState({
+      sequenceCountdown: this.state.sequenceCountdown - 0.01
+    })
+  }
+
   handlePlayTimer = () => {
     this.setState({
       paused: false
     })
     timer = setInterval(this.decrement, 60000)
+    sequenceTimer = setInterval(this.sequenceDecrement, 1000)
   }
 
   handlePauseTimer = () => {
     clearTimeout(timer)
+    clearTimeout(sequenceTimer)
     this.setState({
       paused: true
     })
@@ -67,18 +90,20 @@ export default class App extends React.Component {
 
   handleCancelTimer = () => {
     clearTimeout(timer)
+    clearTimeout(sequenceTimer)
     this.setState({
       time: workoutTime,
       sequence: sequence[0],
       sequenceStartTime: workoutTime,
       sequenceTime: sequence[0].time,
+      sequenceCountdown: sequence[0].time,
       paused: true
     })
   }
 
   render() {
     const time = this.state.time
-    const sequenceTime = this.state.sequenceTime
+    const sequenceCountdown = this.state.sequenceCountdown
     const paused = this.state.paused
     let button
 
@@ -100,7 +125,9 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text style={styles.timer}>{time} min</Text>
         <Text style={styles.timer}>{this.state.sequenceStartTime - this.state.sequenceTime}</Text>
-        <SequenceTimer sequenceTime={sequenceTime}/>
+        <SequenceTimer 
+          sequenceCountdown={sequenceCountdown}
+          />
         {button}
         <Button
           title="reset"
