@@ -4,12 +4,12 @@
         "time": 27,
         "sequence": [
             {
-                "time": 1,
+                "time": 2,
                 "paceName": "walk",
                 "pace": 3.5
             },
             {
-                "time": 1,
+                "time": 2,
                 "paceName": "base",
                 "pace": 5.5
             },
