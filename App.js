@@ -65,8 +65,12 @@ export default class App extends React.Component {
     }
 
   selectSequence = () => {
-    this.convertOverallNumberToTime()
     index = this.state.sequenceIndex
+    this.convertOverallNumberToTime()
+    if (this.state.time === 0){
+      this.handleEndSequence()
+    }
+    else {
     if (this.state.time === (this.state.sequenceStartTime - this.state.sequenceTime)){
       this.setState({
         sequenceIndex: index + 1,
@@ -76,20 +80,25 @@ export default class App extends React.Component {
         sequenceCountdown: (sequence[index + 1].time * 60) + 1
       })
     }
+    }
+    
   }
 
   decrement = () => {
-    if (this.state.time === 1) {
-      this.setState({
-        time: this.state.time - 1
-      }, this.handlePauseTimer
-      )
-    }
-    else if (this.state.time > 1) {
-      this.setState({
-        time: this.state.time - 1
-      }, this.selectSequence)
-    } 
+    this.setState({
+      time: this.state.time - 1
+    }, this.selectSequence)
+    // if (this.state.time === 1) {
+    //   this.setState({
+    //     time: this.state.time - 1
+    //   }, this.selectSequence
+    //   )
+    // }
+    // else if (this.state.time > 1) {
+    //   this.setState({
+    //     time: this.state.time - 1
+    //   }, this.selectSequence)
+    // } 
   }
 
   sequenceDecrement = () => {
@@ -106,17 +115,12 @@ export default class App extends React.Component {
     
   }
 
-
-  handlePlaySequenceTimer = () => {
-    sequenceTimer = setInterval(this.sequenceDecrement, 1000)
-  }
-
   handlePlayTimer = () => {
     this.setState({
       paused: false
     })
-    timer = setInterval(this.decrement, 1000)
-    this.handlePlaySequenceTimer()
+    timer = setInterval(this.decrement, 1000) //sets interval for overall workout timer
+    sequenceTimer = setInterval(this.sequenceDecrement, 1000) //sets interval for sequence timer
   }
 
   handlePauseTimer = () => {
@@ -125,6 +129,14 @@ export default class App extends React.Component {
     this.setState({
       paused: true
     })
+  }
+
+  handleEndSequence = () => {
+    clearTimeout(timer)
+    this.setState({
+      paused: true
+    })
+    setTimeout(this.handlePauseTimer, 1000)
   }
 
   handleCancelTimer = () => {
