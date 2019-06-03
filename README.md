@@ -3,7 +3,8 @@ As a participant of many guided, high intensity interval training (HIIT) workout
 
 ## Getting Started
 For testing purposes, clone this repository on GitHub and change into the directory.
-[![Fitness Guide Video](http://img.youtube.com/vi/akiEojI1kdk/0.jpg)](http://www.youtube.com/watch?v=akiEojI1kdk)
+
+![Fitness Guide Workout](https://media.giphy.com/media/5kFbKJdRp0eOS1ascn/giphy.gif)
 
 ## Installing
 ### Mobile
