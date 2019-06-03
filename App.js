@@ -155,13 +155,15 @@ export default class App extends React.Component {
     //toggles button between start and pause
     if (paused){
       button = 
-        <Button 
+        <Button
+        color="red"
         title="start"
         onPress={this.handlePlayTimer}
         />
     } else {
       button = 
       <Button 
+        color="rgb(255, 193, 77)"
         title="pause"
         onPress={this.handlePauseTimer}
         />
@@ -170,14 +172,15 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.timer}>{displayTime}</Text>
+        <Button
+          color="rgb(200, 200, 200)"
+          title="reset"
+          onPress={this.handleCancelTimer}
+        />
         <SequenceTimer 
           sequenceDisplay={sequenceDisplay}
           />
         {button}
-        <Button
-          title="reset"
-          onPress={this.handleCancelTimer}
-        />
         <SequenceRows sequenceIndex={sequenceIndex}/>
       </View>
     );

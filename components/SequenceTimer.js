@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 30,
+        margin: 20,
     },
     timer: {
         color: 'orange',
