@@ -5,7 +5,7 @@ export default class SequenceTimer extends React.Component {
 
     render() {
         return (
-            <View style = {styles.container}>
+            <View style={styles.container}>
                 <Text style={styles.timer}>{this.props.sequenceDisplay}</Text>
             </View>
         );

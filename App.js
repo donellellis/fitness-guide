@@ -3,12 +3,13 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 
 //components
 import SequenceTimer from './components/SequenceTimer'
+import SequenceRows from './components/SequenceRows'
 
 //data
 import workoutData from './data/workoutData';
 
 //variables
-const workoutTime = workoutData.time
+const workoutTime = workoutData.time * 60 //converted to seconds
 const sequence = workoutData.treadmill.sequence
 
 export default class App extends React.Component {
@@ -16,11 +17,11 @@ export default class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-        time: workoutTime * 60, //overall workout time in seconds
+        time: workoutTime, //overall workout time in seconds
         displayTime: null, //converts overall workout time for display
         sequenceIndex: 0, 
         sequence: sequence[0], 
-        sequenceStartTime: workoutTime * 60, //sets the time the next sequence beings in releationship to overall time
+        sequenceStartTime: workoutTime, //sets the time the next sequence beings in releationship to overall time
         sequenceTime: sequence[0].time * 60, //length of time for workout sequence in seconds
         sequenceCountdown: sequence[0].time * 60, //counts down for sequence
         sequenceDisplay: null, //converts sequence count down for display
@@ -68,20 +69,19 @@ export default class App extends React.Component {
     index = this.state.sequenceIndex
     this.convertOverallNumberToTime()
     if (this.state.time === 0){
-      this.handleEndSequence()
+      this.handleEndTimer()
     }
     else {
-    if (this.state.time === (this.state.sequenceStartTime - this.state.sequenceTime)){
-      this.setState({
-        sequenceIndex: index + 1,
-        sequence: sequence[index + 1],
-        sequenceStartTime: this.state.time,
-        sequenceTime: sequence[index + 1].time * 60,
-        sequenceCountdown: (sequence[index + 1].time * 60) + 1
-      })
+      if (this.state.time === (this.state.sequenceStartTime - this.state.sequenceTime)){
+        this.setState({
+          sequenceIndex: index + 1,
+          sequence: sequence[index + 1],
+          sequenceStartTime: this.state.time,
+          sequenceTime: sequence[index + 1].time * 60,
+          sequenceCountdown: (sequence[index + 1].time * 60) + 1
+        })
+      }
     }
-    }
-    
   }
 
   decrement = () => {
@@ -119,7 +119,7 @@ export default class App extends React.Component {
     })
   }
 
-  handleEndSequence = () => {
+  handleEndTimer = () => {
     clearTimeout(timer)
     this.setState({
       paused: true
@@ -132,11 +132,11 @@ export default class App extends React.Component {
       clearTimeout(timer)
       clearTimeout(sequenceTimer)
       this.setState({
-        time: workoutTime * 60,
+        time: workoutTime,
         displayTime: null,
         sequenceIndex: 0,
         sequence: sequence[0],
-        sequenceStartTime: workoutTime * 60,
+        sequenceStartTime: workoutTime,
         sequenceTime: sequence[0].time * 60,
         sequenceCountdown: sequence[0].time * 60,
         sequenceDisplay: null,
@@ -146,11 +146,13 @@ export default class App extends React.Component {
   }
 
   render() {
+    const sequenceIndex = this.state.sequenceIndex
     const displayTime = this.state.displayTime
     const sequenceDisplay = this.state.sequenceDisplay
     const paused = this.state.paused
     let button
 
+    //toggles button between start and pause
     if (paused){
       button = 
         <Button 
@@ -165,6 +167,15 @@ export default class App extends React.Component {
         />
     }
 
+    // const sequenceList = sequence.map((sequence, index) => (
+    //   <tr key={sequence}>
+    //     <td>{sequence.time}</td>
+    //     <td>{sequence.paceName}</td>
+    //     <td>{sequence.pace}</td>
+    //   </tr>
+    // ))
+
+
     return (
       <View style={styles.container}>
         <Text style={styles.timer}>{displayTime}</Text>
@@ -176,6 +187,7 @@ export default class App extends React.Component {
           title="reset"
           onPress={this.handleCancelTimer}
         />
+        <SequenceRows/>
       </View>
     );
   }
@@ -183,6 +195,7 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
