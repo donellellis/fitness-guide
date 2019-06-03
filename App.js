@@ -167,15 +167,6 @@ export default class App extends React.Component {
         />
     }
 
-    // const sequenceList = sequence.map((sequence, index) => (
-    //   <tr key={sequence}>
-    //     <td>{sequence.time}</td>
-    //     <td>{sequence.paceName}</td>
-    //     <td>{sequence.pace}</td>
-    //   </tr>
-    // ))
-
-
     return (
       <View style={styles.container}>
         <Text style={styles.timer}>{displayTime}</Text>
@@ -187,7 +178,7 @@ export default class App extends React.Component {
           title="reset"
           onPress={this.handleCancelTimer}
         />
-        <SequenceRows/>
+        <SequenceRows sequenceIndex={sequenceIndex}/>
       </View>
     );
   }
@@ -197,12 +188,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'flex-start',
     backgroundColor: '#262626',
     paddingTop: 20,
   },
   timer: {
+    alignSelf: 'center',
     color: 'white',
     fontSize: '30'
   }
